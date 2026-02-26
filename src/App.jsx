@@ -42,16 +42,8 @@ function formatCLP(value) {
 }
 
 /**
- * Ahora promos se guardan como TOTAL por pack:
+ * Promos como TOTAL por pack:
  * promos: { "2": 12000, "3": 17000, "4": 22000 }
- * Eso significa:
- * - Si qty>=2 y existe promo["2"], el total para las 2 unidades es 12000.
- * - Si qty>=3 y existe promo["3"], el total para las 3 unidades es 17000.
- * - Si qty>=4 y existe promo["4"], el total para las 4 unidades es 22000.
- *
- * Para calcular el precio unitario "efectivo" que usamos en carrito:
- * - tomamos el mejor pack aplicable según qty (4, luego 3, luego 2)
- * - unit = promoTotal / packSize
  */
 function getEffectiveUnitPrice(product, qty) {
   const base = Number(product?.price ?? 0);
@@ -76,7 +68,7 @@ function promoSummary(product) {
 }
 
 /* ---------- Modal genérico ---------- */
-function Modal({ open, title, children, onClose }) {
+function Modal({ open, title, children, onClose, className = "" }) {
   useEffect(() => {
     if (!open) return;
 
@@ -99,7 +91,7 @@ function Modal({ open, title, children, onClose }) {
   return (
     <div className="modal-overlay" onMouseDown={onClose}>
       <div
-        className="modal-card"
+        className={`modal-card ${className}`}
         onMouseDown={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -140,7 +132,13 @@ function CategorySidebar({ activeCategory, onSelect }) {
   );
 }
 
-function ProductCard({ product, quantityInCart, onIncrement, onDecrement }) {
+function ProductCard({
+  product,
+  quantityInCart,
+  onIncrement,
+  onDecrement,
+  onImageClick,
+}) {
   const isOutOfStock = product.inStock === false;
   const qty = quantityInCart || 0;
   const unit = getEffectiveUnitPrice(product, qty > 0 ? qty : 1);
@@ -158,7 +156,13 @@ function ProductCard({ product, quantityInCart, onIncrement, onDecrement }) {
         ) : null}
       </div>
 
-      <div className="product-image-wrap">
+      <button
+        type="button"
+        className="product-image-wrap product-image-btn"
+        onClick={() => onImageClick?.(product)}
+        aria-label={`Ver imagen completa de ${product.name}`}
+        title="Ver imagen completa"
+      >
         <img
           className="product-image"
           src={product.image}
@@ -166,10 +170,10 @@ function ProductCard({ product, quantityInCart, onIncrement, onDecrement }) {
           loading="lazy"
           onError={(e) => {
             e.currentTarget.src =
-              "https://via.placeholder.com/600x400?text=Sin+Imagen";
+              "https://via.placeholder.com/1200x800?text=Sin+Imagen";
           }}
         />
-      </div>
+      </button>
 
       <h3>{product.name}</h3>
       <p className="muted">{product.description}</p>
@@ -340,7 +344,9 @@ function CartContent({
             value={paymentMethod}
             onChange={(e) => onPaymentMethodChange(e.target.value)}
           >
-            <option value="Efectivo contra entrega">Efectivo contra entrega</option>
+            <option value="Efectivo contra entrega">
+              Efectivo contra entrega
+            </option>
             <option value="Transferencia">Transferencia</option>
           </select>
         </div>
@@ -475,7 +481,6 @@ function AdminContent({
   const buildPayload = () => {
     const price = Number(form.price);
 
-    // promos ahora son TOTALES por pack
     const promos = {
       "2": toNumberOrNull(form.promo2),
       "3": toNumberOrNull(form.promo3),
@@ -848,6 +853,10 @@ export default function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
 
+  // Modal imagen
+  const [imageOpen, setImageOpen] = useState(false);
+  const [imageData, setImageData] = useState({ src: "", title: "" });
+
   useEffect(() => {
     const unsub = subscribeProducts(setProducts);
     return () => unsub?.();
@@ -946,7 +955,7 @@ export default function App() {
       .filter(Boolean);
 
     const msg = [
-      "🛒 *Pedido Mi Tienda*",
+      "🛒 *Pedido*",
       "",
       `👤 Nombre: ${customerName || "-"}`,
       `📍 Dirección: ${customerAddress || "-"}`,
@@ -985,38 +994,48 @@ export default function App() {
     await deleteProduct(id);
   };
 
+  const openImageModal = (product) => {
+    const src = (product?.image || "").trim();
+    if (!src) return;
+    setImageData({ src, title: product?.name || "Imagen" });
+    setImageOpen(true);
+  };
+
   return (
     <div className="app-shell">
       <header className="topbar">
-        <div className="brand">
-          <img className="brand-logo" src={logoMiTienda} alt="Mi Tienda" />
-          <div>
-            <h1>Mi Tienda</h1>
-            <div className="muted small">Todo lo que necesitas</div>
+        {/* 👇 Esto evita que el título/barra se estire al 100% visualmente */}
+        <div className="topbar-inner">
+          <div className="brand">
+            <img className="brand-logo" src={logoMiTienda} alt="Mi Tienda" />
+            <div>
+              <h1>Mi Tienda</h1>
+              <div className="muted small">Todo lo que necesitas</div>
+            </div>
           </div>
-        </div>
 
-        <div className="topbar-actions">
-          <button
-            className="icon-btn"
-            type="button"
-            onClick={() => setAdminOpen(true)}
-            aria-label="Edición"
-            title="Edición"
-          >
-            ⚙
-          </button>
+          <div className="topbar-actions">
+            <button
+              className="icon-btn"
+              type="button"
+              onClick={() => setAdminOpen(true)}
+              aria-label="Edición"
+              title="Edición"
+            >
+              ⚙
+            </button>
 
-          <button
-            className="icon-btn cart-btn"
-            type="button"
-            onClick={() => setCartOpen(true)}
-            aria-label="Carrito"
-            title="Carrito"
-          >
-            🛒
-            {cartCount > 0 ? <span className="cart-dot">{cartCount}</span> : null}
-          </button>
+            <button
+              className="icon-btn cart-btn"
+              type="button"
+              onClick={() => setCartOpen(true)}
+              aria-label="Carrito"
+              title="Carrito"
+            >
+              🛒
+              {cartCount > 0 ? <span className="cart-dot">{cartCount}</span> : null}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -1032,7 +1051,6 @@ export default function App() {
                 placeholder="Buscar productos..."
               />
 
-              {/* Móvil: solo desplegable (sin botones) */}
               <select
                 value={activeCategory}
                 onChange={(e) => setActiveCategory(e.target.value)}
@@ -1058,12 +1076,33 @@ export default function App() {
                   quantityInCart={qtyFor(p.id)}
                   onIncrement={increment}
                   onDecrement={decrement}
+                  onImageClick={openImageModal}
                 />
               ))}
             </div>
           )}
         </main>
       </div>
+
+      {/* MODAL IMAGEN */}
+      <Modal
+        open={imageOpen}
+        title={imageData.title || "Imagen"}
+        onClose={() => setImageOpen(false)}
+        className="image-modal"
+      >
+        <div className="image-modal-body">
+          <img
+            className="image-modal-img"
+            src={imageData.src}
+            alt={imageData.title || "Imagen"}
+            onError={(e) => {
+              e.currentTarget.src =
+                "https://via.placeholder.com/1200x800?text=Sin+Imagen";
+            }}
+          />
+        </div>
+      </Modal>
 
       {/* MODAL CARRITO */}
       <Modal open={cartOpen} title="Carrito Mi Tienda" onClose={() => setCartOpen(false)}>
@@ -1075,7 +1114,7 @@ export default function App() {
           onClear={clearCart}
           onCheckout={(total) => {
             checkout(total);
-            clearCart(); // ← vacía el carrito
+            clearCart();
             setCartOpen(false);
           }}
           customerName={customerName}
@@ -1103,7 +1142,6 @@ export default function App() {
         />
       </Modal>
 
-      {/* FOOTER */}
       <footer className="app-footer">
         Despacho gratis en zonas centrales - Info al fono +56987231623
       </footer>

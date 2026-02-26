@@ -42,6 +42,7 @@ body {
   flex-direction: column;
 }
 
+/* ✅ El header sigue “sticky”, pero el contenido queda limitado al ancho de la app */
 .topbar {
   position: sticky;
   top: 0;
@@ -50,6 +51,15 @@ body {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(217,207,186,0.8);
   padding: 10px 14px;
+
+  /* centra el contenedor interno */
+  display: flex;
+  justify-content: center;
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -203,7 +213,7 @@ body {
   flex-direction: column;
   min-height: 200px;
   background: linear-gradient(180deg, var(--card) 0%, var(--card-soft) 100%);
-  border: 1px solid #d9cfba; /* un poco más marcado */
+  border: 1px solid #d9cfba;
 }
 
 .product-top {
@@ -236,6 +246,7 @@ body {
 .stock-badge { font-size: 0.72rem; padding: 4px 8px; border-radius: 999px; }
 .no-stock { background: #fdecec; color: #8f1c12; border: 1px solid #f4c9c4; }
 
+/* ✅ ahora es botón (click abre modal) */
 .product-image-wrap {
   width: 100%;
   border-radius: 12px;
@@ -243,6 +254,21 @@ body {
   border: 1px solid #d9cfba;
   background: #fff;
   margin-bottom: 10px;
+}
+
+.product-image-btn {
+  padding: 0;
+  border: none;
+  cursor: zoom-in;
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+
+.product-image-btn:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+}
+
+.product-image-btn:active {
+  transform: scale(0.995);
 }
 
 .product-image {
@@ -378,6 +404,26 @@ body {
 .modal-title { font-weight: 900; }
 .modal-body { padding: 12px; }
 
+/* ✅ Modal de imagen: más ancho y centrado */
+.image-modal {
+  width: min(1100px, 98vw);
+}
+
+.image-modal-body {
+  display: grid;
+  place-items: center;
+}
+
+.image-modal-img {
+  width: 100%;
+  height: auto;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 1px solid rgba(217,207,186,0.9);
+  background: #fff;
+}
+
 /* ---------- Cart ---------- */
 .cart-modal-content { padding: 4px 2px; }
 
@@ -449,7 +495,7 @@ body {
 .info-card h3 { margin-top: 0; }
 .empty { margin-top: 16px; text-align: center; }
 
-/* ---------- Admin tabs (los botones de tu foto) ---------- */
+/* ---------- Admin tabs ---------- */
 .admin-tabs {
   margin: 10px 0 12px;
   display: inline-flex;
@@ -462,7 +508,6 @@ body {
   box-shadow: 0 6px 16px rgba(0,0,0,0.06);
 }
 
-/* Reutiliza la clase .chip pero ahora queda como tab */
 .chip {
   border: none;
   background: transparent;
@@ -580,6 +625,11 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .mobile-only { display: block; }
+
+  /* Header sigue centrado en móvil */
+  .topbar-inner {
+    max-width: 1240px;
+  }
 }
 
 @media (max-width: 560px) {
