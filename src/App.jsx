@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import logoBodeguita from "./assets/logo-bodeguita-mily.png";
+import logoMiTienda from "./assets/logo-mitienda.png";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 import {
@@ -13,15 +13,15 @@ import { loginAdmin, logoutAdmin } from "./firebase/auth";
 const WHATSAPP_NUMBER = "56987231623";
 
 const CATEGORIES = [
-  "TODOS",
-  "HUEVOS",
-  "DESPENSA",
-  "ENCURTIDOS",
-  "DULCES Y SALADOS",
-  "PRODUCTOS DEL MAR",
-  "CONGELADOS",
-  "ASEO",
-  "AUTOMOTRIZ",
+  "TODO",
+  "UTILES",
+  "PANADERIA",
+  "DEPORTE",
+  "FRUTOS SECOS",
+  "BELLEZA",
+  "HERRAMIENTAS",
+  "MASCOTAS ",
+  "ROPA",
 ];
 
 function normalizeText(value) {
@@ -149,7 +149,10 @@ function ProductCard({ product, quantityInCart, onIncrement, onDecrement }) {
   return (
     <div className="card product-card">
       <div className="product-top">
-        <span className="category-tag">{product.category}</span>
+        <div className="product-top-left">
+          <span className="category-tag">{product.category}</span>
+          {product.promoted ? <span className="promo-flag">⭐</span> : null}
+        </div>
         {isOutOfStock ? (
           <span className="stock-badge no-stock">SIN STOCK</span>
         ) : null}
@@ -404,9 +407,11 @@ function AdminContent({
     name: "",
     description: "",
     price: "",
-    category: "DESPENSA",
+    category: "cat1",
     image: "",
     inStock: true,
+    promoted: false,
+    sortOrder: "",
     promo2: "",
     promo3: "",
     promo4: "",
@@ -419,9 +424,11 @@ function AdminContent({
         name: "",
         description: "",
         price: "",
-        category: "DESPENSA",
+        category: "cat1",
         image: "",
         inStock: true,
+        promoted: false,
+        sortOrder: "",
         promo2: "",
         promo3: "",
         promo4: "",
@@ -438,22 +445,31 @@ function AdminContent({
       name: p.name || "",
       description: p.description || "",
       price: String(p.price ?? ""),
-      category: p.category || "DESPENSA",
+      category: p.category || "cat1",
       image: p.image || "",
       inStock: p.inStock !== false,
+      promoted: Boolean(p.promoted),
+      sortOrder: p.sortOrder != null ? String(p.sortOrder) : "",
       promo2: p.promos?.["2"] ? String(p.promos["2"]) : "",
       promo3: p.promos?.["3"] ? String(p.promos["3"]) : "",
       promo4: p.promos?.["4"] ? String(p.promos["4"]) : "",
     });
   }, [mode, selectedId, products]);
 
-  const categoriesWithoutTodos = CATEGORIES.filter((c) => c !== "TODOS");
+  const categoriesWithoutTodos = CATEGORIES.filter((c) => c !== "TODO");
 
   const toNumberOrNull = (v) => {
     const n = Number(v);
-    if (!v) return null;
+    if (v === "" || v == null) return null;
     if (Number.isNaN(n) || n <= 0) return null;
     return n;
+  };
+
+  const toIntegerOrNull = (v) => {
+    const n = Number(v);
+    if (v === "" || v == null) return null;
+    if (Number.isNaN(n)) return null;
+    return Math.trunc(n);
   };
 
   const buildPayload = () => {
@@ -473,6 +489,8 @@ function AdminContent({
       category: form.category,
       image: form.image.trim(),
       inStock: Boolean(form.inStock),
+      promoted: Boolean(form.promoted),
+      sortOrder: toIntegerOrNull(form.sortOrder),
       promos,
     };
   };
@@ -517,6 +535,8 @@ function AdminContent({
           description: "",
           price: "",
           image: "",
+          promoted: false,
+          sortOrder: "",
           promo2: "",
           promo3: "",
           promo4: "",
@@ -644,8 +664,10 @@ function AdminContent({
               <option value="">Selecciona un producto...</option>
               {products.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.name} — {p.category}{" "}
-                  {p.inStock === false ? "(Sin stock)" : ""}
+                  {p.promoted ? "⭐ " : ""}
+                  {p.name} — {p.category}
+                  {p.sortOrder != null ? ` — orden ${p.sortOrder}` : ""}
+                  {p.inStock === false ? " (Sin stock)" : ""}
                 </option>
               ))}
             </select>
@@ -673,7 +695,7 @@ function AdminContent({
 
         <div className="field-grid">
           <div className="form-row">
-            <label>Precio base (CLP)</label>
+            <label>Precio ($)</label>
             <input
               type="number"
               min="0"
@@ -699,6 +721,33 @@ function AdminContent({
           </div>
         </div>
 
+        <div className="field-grid">
+          <div className="form-row">
+            <label>Orden de aparición (menor = primero)</label>
+            <input
+              type="number"
+              value={form.sortOrder}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, sortOrder: e.target.value }))
+              }
+              placeholder="Ej: 1"
+            />
+          </div>
+
+          <div className="form-row checkbox-row">
+            <label className="checkbox-inline">
+              <input
+                type="checkbox"
+                checked={form.promoted}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, promoted: e.target.checked }))
+                }
+              />
+              <span>Promocionado</span>
+            </label>
+          </div>
+        </div>
+
         <div className="form-row">
           <label>URL de imagen</label>
           <input
@@ -708,7 +757,7 @@ function AdminContent({
         </div>
 
         <div className="form-row checkbox-row">
-          <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <label className="checkbox-inline">
             <input
               type="checkbox"
               checked={form.inStock}
@@ -784,7 +833,7 @@ function AdminContent({
 /* ---------- App ---------- */
 export default function App() {
   const [products, setProducts] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("TODOS");
+  const [activeCategory, setActiveCategory] = useState("TODO");
   const [search, setSearch] = useState("");
 
   const [cart, setCart] = useState([]);
@@ -811,14 +860,32 @@ export default function App() {
 
   const filteredProducts = useMemo(() => {
     const q = normalizeText(search);
-    return products.filter((p) => {
-      const okCategory =
-        activeCategory === "TODOS" ? true : p.category === activeCategory;
+
+    const base = products.filter((p) => {
+      const okCategory = activeCategory === "TODO" ? true : p.category === activeCategory;
       if (!okCategory) return false;
       if (!q) return true;
       const hay = normalizeText(`${p.name} ${p.description} ${p.category}`);
       return hay.includes(q);
     });
+
+    // Orden:
+    // 1) Promocionados primero
+    // 2) sortOrder (menor primero; null al final)
+    // 3) nombre
+    return base
+      .slice()
+      .sort((a, b) => {
+        const ap = a.promoted ? 1 : 0;
+        const bp = b.promoted ? 1 : 0;
+        if (ap !== bp) return bp - ap;
+
+        const ao = a.sortOrder == null ? Number.POSITIVE_INFINITY : Number(a.sortOrder);
+        const bo = b.sortOrder == null ? Number.POSITIVE_INFINITY : Number(b.sortOrder);
+        if (ao !== bo) return ao - bo;
+
+        return String(a.name || "").localeCompare(String(b.name || ""), "es");
+      });
   }, [products, activeCategory, search]);
 
   const qtyFor = (productId) =>
@@ -879,7 +946,7 @@ export default function App() {
       .filter(Boolean);
 
     const msg = [
-      "🛒 *Pedido*",
+      "🛒 *Pedido Mi Tienda*",
       "",
       `👤 Nombre: ${customerName || "-"}`,
       `📍 Dirección: ${customerAddress || "-"}`,
@@ -922,10 +989,10 @@ export default function App() {
     <div className="app-shell">
       <header className="topbar">
         <div className="brand">
-          <img className="brand-logo" src={logoBodeguita} alt="Bodeguita de la Mily" />
+          <img className="brand-logo" src={logoMiTienda} alt="Mi Tienda" />
           <div>
-            <h1>La Bodeguita de la Mily</h1>
-            <div className="muted small">Precios convenientes todos los días para ti y tu familia.</div>
+            <h1>Mi Tienda</h1>
+            <div className="muted small">Todo lo que necesitas</div>
           </div>
         </div>
 
@@ -934,8 +1001,8 @@ export default function App() {
             className="icon-btn"
             type="button"
             onClick={() => setAdminOpen(true)}
-            aria-label="Admin"
-            title="Admin"
+            aria-label="Edición"
+            title="Edición"
           >
             ⚙
           </button>
@@ -999,18 +1066,18 @@ export default function App() {
       </div>
 
       {/* MODAL CARRITO */}
-      <Modal open={cartOpen} title="Carrito" onClose={() => setCartOpen(false)}>
-  <CartContent
-    items={cart}
-    products={products}
-    onChangeQty={changeQty}
-    onRemove={removeItem}
-    onClear={clearCart}
-    onCheckout={(total) => {
-      checkout(total);
-      clearCart();          // ← vacía el carrito
-      setCartOpen(false);
-    }}
+      <Modal open={cartOpen} title="Carrito Mi Tienda" onClose={() => setCartOpen(false)}>
+        <CartContent
+          items={cart}
+          products={products}
+          onChangeQty={changeQty}
+          onRemove={removeItem}
+          onClear={clearCart}
+          onCheckout={(total) => {
+            checkout(total);
+            clearCart(); // ← vacía el carrito
+            setCartOpen(false);
+          }}
           customerName={customerName}
           customerAddress={customerAddress}
           deliveryReference={deliveryReference}
@@ -1022,8 +1089,8 @@ export default function App() {
         />
       </Modal>
 
-      {/* MODAL ADMIN */}
-      <Modal open={adminOpen} title="Administración" onClose={() => setAdminOpen(false)}>
+      {/* MODAL EDICIÓN */}
+      <Modal open={adminOpen} title="Edición" onClose={() => setAdminOpen(false)}>
         <AdminContent
           adminUser={adminUser}
           isAdmin={isAdmin}
@@ -1038,11 +1105,7 @@ export default function App() {
 
       {/* FOOTER */}
       <footer className="app-footer">
-        DESPACHO GRATIS EN STA. MARÍA DEL PEÑÓN,
-ALTA VISTA DEL PEÑÓN, PORTEZUELO ORIENTE,
-PORTEZUELO TOBALABA, TERRAZAS DE PTE. ALTO,
-CUMBRES DEL PERAL Y CIUDAD DEL ESTE.
-<p>INFO AL FONO +56987231623 </p>
+        Despacho gratis en zonas centrales - Info al fono +56987231623
       </footer>
     </div>
   );
