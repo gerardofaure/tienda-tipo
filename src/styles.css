@@ -9,6 +9,12 @@
   --primary: #1f7a4c;
   --danger: #b42318;
   --shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+  /* solicitado */
+  --desktop-card-width: 320px;
+
+  /* ✅ CLAVE: el sidebar está sticky con este top, y el strip debe empezar a la misma altura (foto 2) */
+  --sidebar-sticky-top: 76px;
 }
 
 * { box-sizing: border-box; }
@@ -42,7 +48,7 @@ body {
   flex-direction: column;
 }
 
-/* ✅ El header sigue “sticky”, pero el contenido queda limitado al ancho de la app */
+/* Header móvil */
 .topbar {
   position: sticky;
   top: 0;
@@ -51,8 +57,6 @@ body {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(217,207,186,0.8);
   padding: 10px 14px;
-
-  /* centra el contenedor interno */
   display: flex;
   justify-content: center;
 }
@@ -109,9 +113,7 @@ body {
 .icon-btn:hover { background: rgba(215,192,134,0.25); }
 .icon-btn:active { transform: scale(0.97); }
 
-.cart-btn {
-  position: relative;
-}
+.cart-btn { position: relative; }
 
 .cart-dot {
   position: absolute;
@@ -178,7 +180,11 @@ body {
 }
 
 /* ---------- Category sidebar ---------- */
-.category-sidebar { position: sticky; top: 76px; align-self: start; }
+.category-sidebar {
+  position: sticky;
+  top: var(--sidebar-sticky-top);
+  align-self: start;
+}
 .category-card { padding: 12px; }
 .category-title { font-weight: 900; margin-bottom: 10px; }
 .category-list { display: flex; flex-direction: column; gap: 8px; }
@@ -246,7 +252,7 @@ body {
 .stock-badge { font-size: 0.72rem; padding: 4px 8px; border-radius: 999px; }
 .no-stock { background: #fdecec; color: #8f1c12; border: 1px solid #f4c9c4; }
 
-/* ✅ ahora es botón (click abre modal) */
+/* Imagen click */
 .product-image-wrap {
   width: 100%;
   border-radius: 12px;
@@ -262,14 +268,8 @@ body {
   cursor: zoom-in;
   transition: transform .08s ease, box-shadow .12s ease;
 }
-
-.product-image-btn:hover {
-  box-shadow: 0 10px 20px rgba(0,0,0,0.10);
-}
-
-.product-image-btn:active {
-  transform: scale(0.995);
-}
+.product-image-btn:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.10); }
+.product-image-btn:active { transform: scale(0.995); }
 
 .product-image {
   display: block;
@@ -404,16 +404,9 @@ body {
 .modal-title { font-weight: 900; }
 .modal-body { padding: 12px; }
 
-/* ✅ Modal de imagen: más ancho y centrado */
-.image-modal {
-  width: min(1100px, 98vw);
-}
-
-.image-modal-body {
-  display: grid;
-  place-items: center;
-}
-
+/* Modal de imagen */
+.image-modal { width: min(1100px, 98vw); }
+.image-modal-body { display: grid; place-items: center; }
 .image-modal-img {
   width: 100%;
   height: auto;
@@ -426,14 +419,12 @@ body {
 
 /* ---------- Cart ---------- */
 .cart-modal-content { padding: 4px 2px; }
-
 .cart-items {
   margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 .cart-item {
   display: flex;
   justify-content: space-between;
@@ -444,10 +435,8 @@ body {
   padding: 10px;
   background: #fffdf7;
 }
-
 .cart-item-name { font-weight: 700; font-size: 0.92rem; }
 .cart-subtotal { font-weight: 800; white-space: nowrap; }
-
 .promo-inline { color: #5d4b1b; font-weight: 800; }
 
 .cart-footer {
@@ -474,10 +463,7 @@ body {
 }
 .form-row label { font-weight: 800; font-size: 0.9rem; }
 
-.checkbox-row{
-  align-items:flex-start;
-}
-
+.checkbox-row{ align-items:flex-start; }
 .checkbox-inline{
   display:flex;
   align-items:center;
@@ -518,36 +504,21 @@ body {
   transition: background 0.12s ease, color 0.12s ease;
   border-right: 1px solid #e2d9c8;
 }
-
 .admin-tabs .chip:last-child { border-right: none; }
 
-.chip:hover {
-  background: #fff3d6;
-  color: #5d4b1b;
-}
-
-.chip.active {
-  background: var(--accent);
-  color: #2a1b00;
-}
+.chip:hover { background: #fff3d6; color: #5d4b1b; }
+.chip.active { background: var(--accent); color: #2a1b00; }
 
 /* ---------- Admin panel ---------- */
 .admin-panel-modal { padding: 4px 2px; }
-
 .admin-head-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
 }
-
-.admin-login {
-  padding: 4px 2px;
-}
-
-.admin-form {
-  margin-top: 10px;
-}
+.admin-login { padding: 4px 2px; }
+.admin-form { margin-top: 10px; }
 
 .field-grid {
   display: grid;
@@ -591,11 +562,7 @@ body {
   border-radius: 14px;
   padding: 12px;
 }
-
-.promo-title {
-  font-weight: 900;
-  margin-bottom: 10px;
-}
+.promo-title { font-weight: 900; margin-bottom: 10px; }
 
 .promo-grid {
   display: grid;
@@ -604,6 +571,7 @@ body {
 }
 
 /* ---------- Footer ---------- */
+.footer,
 .app-footer {
   padding: 16px 14px;
   text-align: center;
@@ -611,35 +579,165 @@ body {
   color: #5a4b2d;
   border-top: 1px solid rgba(217,207,186,0.8);
   background: rgba(255,250,240,0.75);
+  margin-top: 16px;
+  border-radius: 18px;
+}
+
+/* =========================================================
+   BANNER + TOP STRIP (ESCRITORIO) + MOBILE/DESKTOP SWITCH
+   ========================================================= */
+
+/* Por defecto: móvil */
+.desktop-only { display: none !important; }
+.mobile-only  { display: block !important; }
+
+@media (min-width: 901px) {
+  .desktop-only { display: block !important; }
+  .mobile-only  { display: none !important; }
+
+  /* ✅ escritorio: logo grande */
+  .brand-logo {
+    width: 146px;
+    height: 146px;
+    object-fit: contain;
+  }
+}
+
+/* ---------- Desktop top strip (lo que pide tu foto 2) ---------- */
+.desktop-top-strip {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 0 12px 0;
+}
+
+/* ✅ ESTA ES LA DIFERENCIA: bajar el strip para que quede a la misma altura del menú categorías */
+@media (min-width: 901px) {
+  .desktop-top-strip {
+    margin-top: var(--sidebar-sticky-top);
+  }
+}
+
+.desktop-strip-left,
+.desktop-strip-center,
+.desktop-strip-right {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* columnas */
+.desktop-strip-left { flex: 1; min-width: 220px; }
+.desktop-strip-center { flex: 0 0 auto; justify-content: center; align-items: flex-start; }
+.desktop-strip-right { flex: 1; justify-content: flex-end; gap: 10px; min-width: 160px; }
+
+.brand.brand-inline {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.1;
+}
+.brand.brand-inline h1 {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.1;
+}
+.brand.brand-inline .muted.small {
+  margin: 2px 0 0 0 !important;
+  line-height: 1.1;
+}
+
+/* Banner base */
+.banner { width: 100%; }
+
+.banner-slide {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(217,207,186,0.9);
+  background: #fff;
+  cursor: pointer;
+}
+
+.banner-img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Overlay burbuja */
+.banner-overlay {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.banner-title,
+.banner-subtitle {
+  display: inline-block;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  background: #ffe600;
+  border: 1px solid rgba(217,207,186,0.95);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: #c40000;
+  font-weight: 900;
+  box-shadow: 0 10px 18px rgba(0,0,0,0.10);
+}
+
+.banner-title { font-size: 1rem; }
+.banner-subtitle { font-size: 0.9rem; font-weight: 800; }
+
+/* dots */
+.banner-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.banner-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(217,207,186,0.95);
+  background: rgba(255,250,240,0.9);
+  cursor: pointer;
+}
+
+.banner-dot.active { background: rgba(215,192,134,0.95); }
+
+/* compact */
+.banner-compact .banner-img { height: 120px; }
+
+/* escritorio: banner ancho tipo card */
+@media (min-width: 901px) {
+  .banner.banner-desktop {
+    width: var(--desktop-card-width) !important;
+    max-width: var(--desktop-card-width) !important;
+    flex: 0 0 var(--desktop-card-width) !important;
+  }
+  .banner.banner-desktop .banner-slide { width: 100% !important; }
 }
 
 /* ---------- Responsive ---------- */
-.mobile-only { display: none; }
-
 @media (max-width: 980px) {
-  .layout-desktop {
-    grid-template-columns: 1fr;
-  }
+  .layout-desktop { grid-template-columns: 1fr; }
   .category-sidebar { display: none; }
-  .products-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .mobile-only { display: block; }
-
-  /* Header sigue centrado en móvil */
-  .topbar-inner {
-    max-width: 1240px;
-  }
+  .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .topbar-inner { max-width: 1240px; }
 }
 
 @media (max-width: 560px) {
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
-  .field-grid {
-    grid-template-columns: 1fr;
-  }
-  .promo-grid {
-    grid-template-columns: 1fr;
-  }
+  .products-grid { grid-template-columns: 1fr; }
+  .field-grid { grid-template-columns: 1fr; }
+  .promo-grid { grid-template-columns: 1fr; }
 }
