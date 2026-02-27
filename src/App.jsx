@@ -156,7 +156,7 @@ function BannerCarousel({ slides, onClickSlide, className = "", compact = false 
     if (!slides || slides.length <= 1) return;
     timerRef.current = window.setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
-    }, 4500);
+    }, 2000);
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
     };
@@ -183,7 +183,7 @@ function BannerCarousel({ slides, onClickSlide, className = "", compact = false 
         }}
       >
         <img className="banner-img" src={current.image} alt={current.title} />
-        <div className="banner-overlay">
+        {/* <div className="banner-overlay"> */}<div className="banner-overlay">
           <div className="banner-title">{current.title}</div>
           {current.subtitle ? <div className="banner-subtitle">{current.subtitle}</div> : null}
         </div>
@@ -1262,17 +1262,16 @@ export default function App() {
         <main className="catalog-area">
           {/* DESKTOP STRIP (solo escritorio) */}
           <div className="desktop-top-strip desktop-only">
-            <div className="desktop-strip-left">
-              <div className="brand brand-inline">
-                <img className="brand-logo" src={logoMiTienda} alt="Mi Tienda" />
-                <div>
-                  <h1>Mi Tienda</h1>
-                  <div className="muted small">Todo lo que necesitas</div>
-                </div>
+            {/* Todo en el mismo contenedor para alinear horizontalmente */}
+            <div className="brand brand-inline desktop-strip-brand">
+              <img className="brand-logo" src={logoMiTienda} alt="Mi Tienda" />
+              <div>
+                <h1>Mi Tienda</h1>
+                <div className="muted small">Todo lo que necesitas</div>
               </div>
             </div>
 
-            <div className="desktop-strip-center">
+            <div className="desktop-strip-banner">
               <BannerCarousel
                 slides={bannerSlides}
                 onClickSlide={handleBannerClick}
@@ -1281,7 +1280,7 @@ export default function App() {
               />
             </div>
 
-            <div className="desktop-strip-right">
+            <div className="desktop-strip-actions">
               <button
                 className="icon-btn"
                 type="button"

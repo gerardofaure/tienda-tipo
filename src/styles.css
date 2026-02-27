@@ -603,37 +603,62 @@ body {
   }
 }
 
-/* ---------- Desktop top strip (lo que pide tu foto 2) ---------- */
+/* ---------- Desktop top strip ---------- */
 .desktop-top-strip {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 14px;
   margin: 0 0 12px 0;
+
+  /* ✅ NO permitir que baje a otra línea */
+  flex-wrap: nowrap !important;
 }
 
-/* ✅ ESTA ES LA DIFERENCIA: bajar el strip para que quede a la misma altura del menú categorías */
+/* ✅ escritorio: forzar GRID para 3 columnas y centrar banner REAL */
 @media (min-width: 901px) {
   .desktop-top-strip {
     margin-top: var(--sidebar-sticky-top);
+
+    display: grid !important;
+    grid-template-columns: 1fr var(--desktop-card-width) 1fr !important;
+    align-items: center !important;
+    column-gap: 14px !important;
+    width: 100%;
   }
 }
 
-.desktop-strip-left,
-.desktop-strip-center,
-.desktop-strip-right {
+/* 3 zonas */
+.desktop-strip-brand {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  min-width: 220px;
+  justify-self: start !important;
 }
 
-/* columnas */
-.desktop-strip-left { flex: 1; min-width: 220px; }
-.desktop-strip-center { flex: 0 0 auto; justify-content: center; align-items: flex-start; }
-.desktop-strip-right { flex: 1; justify-content: flex-end; gap: 10px; min-width: 160px; }
+.desktop-strip-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center !important;
+
+  /* ✅ el contenedor del banner calza EXACTO con una card */
+  width: var(--desktop-card-width) !important;
+  max-width: var(--desktop-card-width) !important;
+}
+
+.desktop-strip-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 160px;
+  justify-self: end !important;
+}
 
 .brand.brand-inline {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   margin: 0 !important;
   padding: 0 !important;
@@ -669,15 +694,17 @@ body {
   object-fit: cover;
 }
 
-/* Overlay burbuja */
+/* Overlay burbuja 
 .banner-overlay {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
+  left: 1px;
+  bottom: 1px;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
+*/
+.banner-overlay { display: none !important; }
 
 .banner-title,
 .banner-subtitle {
