@@ -17,7 +17,7 @@ const CART_STORAGE_KEY = "mi_tienda_cart_v2"; // v2: sin variantes (migra desde 
 const LEGACY_CART_STORAGE_KEY = "mi_tienda_cart_v1";
 
 const CATEGORIES = [
-  "TODO",
+  "TODOS",
   "UTILES",
   "PANADERIA",
   "DEPORTE",
@@ -130,7 +130,7 @@ function CategorySidebar({ activeCategory, onSelect }) {
   return (
     <aside className="category-sidebar">
       <div className="card category-card">
-        <div className="category-title">Categorías</div>
+        <div className="category-title">Mi Tienda</div>
         <div className="category-list">
           {CATEGORIES.map((c) => (
             <button

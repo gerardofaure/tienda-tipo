@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
+
 :root {
-  --bg: #f3efe6;
+  --bg:  #0050C3;
   --card: #fffaf0;
   --card-soft: #fffdf7;
   --text: #262626;
@@ -13,19 +15,23 @@
   /* solicitado */
   --desktop-card-width: 320px;
 
+  /* ✅ ALTURA UNIFORME DE LAS CARDS DE PRODUCTO (configúralo acá) */
+  --product-card-height: 520px;
+
   /* ✅ CLAVE: el sidebar está sticky con este top, y el strip debe empezar a la misma altura (foto 2) */
   --sidebar-sticky-top: 76px;
 }
-
+* {
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text);
-  background: radial-gradient(1200px 600px at 20% 0%, #fff6df 0%, transparent 50%),
-              radial-gradient(1200px 600px at 80% 0%, #fff0cc 0%, transparent 50%),
-              var(--bg);
+  background: var(--bg);
 }
 
 /* ---------- Helpers ---------- */
@@ -90,6 +96,13 @@ body {
   font-size: 1.05rem;
   letter-spacing: -0.02em;
 }
+.brand h1 {
+  color: #ffffff;
+}
+
+.brand .muted.small {
+  color: #ffffff;
+}
 
 .topbar-actions {
   display: flex;
@@ -97,9 +110,14 @@ body {
   gap: 10px;
 }
 
+/* ===============================
+   ICONOS EDITAR + CARRITO AZULES
+   =============================== */
+
 .icon-btn {
-  border: none;
-  background: transparent;
+  background: #0050C3;       /* Azul */
+  color: #ffffff;            /* Icono blanco */
+  border: 2px solid #ffffff; /* Borde blanco */
   font-size: 1.2rem;
   cursor: pointer;
   width: 42px;
@@ -107,10 +125,18 @@ body {
   border-radius: 14px;
   display: grid;
   place-items: center;
-  transition: transform .08s ease, background .12s ease;
+  transition: all .18s ease;
 }
 
-.icon-btn:hover { background: rgba(215,192,134,0.25); }
+.icon-btn:hover {
+  background: #ffffff;       /* Fondo blanco */
+  color: #0050C3;            /* Icono azul */
+  border: 2px solid #0050C3; /* Borde azul */
+}
+
+.icon-btn:active {
+  transform: scale(0.96);
+}
 .icon-btn:active { transform: scale(0.97); }
 
 .cart-btn { position: relative; }
@@ -190,16 +216,32 @@ body {
 .category-list { display: flex; flex-direction: column; gap: 8px; }
 
 .category-item {
-  border: 1px solid #d9cfba;
-  background: #fffdf7;
+  background: #0050C3;      /* Azul */
+  color: #ffffff;           /* Letras blancas */
+  border: 2px solid #ffffff;/* Borde blanco */
   padding: 10px 10px;
   border-radius: 14px;
   cursor: pointer;
   text-align: left;
   font-weight: 800;
-  transition: transform .08s ease, background .12s ease;
+  transition: all .18s ease;
 }
-.category-item:hover { background: rgba(215,192,134,0.20); }
+
+.category-item:hover {
+  background: #ffffff;      /* Fondo blanco */
+  color: #0050C3;           /* Letras azules */
+  border: 2px solid #0050C3;/* Borde azul */
+}
+
+.category-item:active {
+  transform: scale(0.98);
+}
+
+.category-item.active {
+  background: #003a91;      /* Azul más oscuro cuando está activa */
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
 .category-item:active { transform: scale(0.99); }
 .category-item.active {
   background: rgba(215,192,134,0.45);
@@ -217,7 +259,9 @@ body {
 .product-card {
   display: flex;
   flex-direction: column;
-  min-height: 200px;
+  /* ✅ Todas las cards del catálogo quedan del mismo alto */
+  height: var(--product-card-height);
+  min-height: var(--product-card-height);
   background: linear-gradient(180deg, var(--card) 0%, var(--card-soft) 100%);
   border: 1px solid #d9cfba;
 }
@@ -255,6 +299,7 @@ body {
 /* Imagen click */
 .product-image-wrap {
   width: 100%;
+  height: 250px;      /* 🔵 AQUÍ defines el alto fijo */
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #d9cfba;
@@ -272,14 +317,39 @@ body {
 .product-image-btn:active { transform: scale(0.995); }
 
 .product-image {
-  display: block;
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: cover;  /* recorta sin deformar */
+  display: block;
 }
 
-.product-card h3 { margin: 0 0 6px; font-size: 1rem; line-height: 1.25; }
-.product-card p { margin: 0 0 10px; font-size: 0.9rem; min-height: 38px; }
+.product-card h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  line-height: 1.25;
+
+  /* ✅ Para no desarmar la altura fija cuando el título es muy largo */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.5em; /* 2 líneas * 1.25 */
+}
+
+.product-card p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+
+  /* ✅ Para mantener el alto uniforme con descripciones largas */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  min-height: 3.9em; /* 3 líneas * 1.3 */
+}
 
 .promo-badge {
   font-size: 0.82rem;
@@ -288,6 +358,15 @@ body {
   border-radius: 14px;
   padding: 8px 10px;
   margin-bottom: 10px;
+
+  /* ✅ Evita que promos largas rompan la altura fija */
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.5em;
 }
 
 .product-bottom {
@@ -571,14 +650,18 @@ body {
 }
 
 /* ---------- Footer ---------- */
+/* ===============================
+   FOOTER BLANCO + TEXTO AZUL
+   =============================== */
+
 .footer,
 .app-footer {
   padding: 16px 14px;
   text-align: center;
   font-weight: 800;
-  color: #5a4b2d;
-  border-top: 1px solid rgba(217,207,186,0.8);
-  background: rgba(255,250,240,0.75);
+  color: #0050C3;          /* Letras azules */
+  border-top: 2px solid #0050C3;
+  background: #ffffff;     /* Fondo blanco */
   margin-top: 16px;
   border-radius: 18px;
 }
