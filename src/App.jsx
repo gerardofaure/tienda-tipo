@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import logoMiTienda from "./assets/logo-mitienda.png";
+import logoMiTienda from "./assets/logo-mitienda-azul-2x1.png";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 import {
@@ -696,7 +696,7 @@ function AdminContent({
             <input type="password" value={pass} onChange={(e) => setPass(e.target.value)} placeholder="••••••••" />
           </div>
           {authError ? <div className="error">{authError}</div> : null}
-          <button className="btn" type="submit">Ingresar</button>
+          <button className="btn btn-save" type="submit">Ingresar</button>
           <div className="muted small" style={{ marginTop: 8 }}>
             * Por ahora, cualquier usuario logueado cuenta como admin.
           </div>
@@ -709,9 +709,9 @@ function AdminContent({
     return (
       <div>
         <div className="error">Este usuario no tiene permisos de Admin.</div>
-        <button className="btn btn-outline" style={{ marginTop: 10 }} onClick={onLogout}>
-          Cerrar sesión
-        </button>
+        <button className="btn btn-logout" style={{ marginTop: 10 }} onClick={onLogout}>
+  Cerrar sesión
+</button>
       </div>
     );
   }
@@ -722,9 +722,9 @@ function AdminContent({
         <div className="muted small">
           Sesión: <strong>{adminUser.email}</strong>
         </div>
-        <button className="btn btn-outline btn-small" onClick={onLogout}>
-          Cerrar sesión
-        </button>
+        <button className="btn btn-logout btn-small" onClick={onLogout}>
+  Cerrar sesión
+</button>
       </div>
 
       <div className="card" style={{ marginBottom: 12 }}>
@@ -743,9 +743,9 @@ function AdminContent({
             />
           </div>
           <div className="form-row" style={{ alignSelf: "end" }}>
-            <button className="btn" type="button" onClick={handleSaveSettings}>
-              Guardar
-            </button>
+            <button className="btn btn-save" type="button" onClick={handleSaveSettings}>
+  Guardar
+</button>
           </div>
         </div>
         <div className="muted small">
@@ -892,7 +892,7 @@ function AdminContent({
         </div>
 
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
-          <button className="btn" type="submit">{mode === "create" ? "Agregar producto" : "Guardar cambios"}</button>
+          <button className="btn btn-save" type="submit">{mode === "create" ? "Agregar producto" : "Guardar cambios"}</button>
           {mode === "edit" ? (
             <button className="btn btn-danger" type="button" onClick={handleDelete}>
               Eliminar producto

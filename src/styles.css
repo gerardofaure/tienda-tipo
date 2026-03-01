@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --bg:  #0050C3;
+  --bg:  #1349A4;
   --card: #fffaf0;
   --card-soft: #fffdf7;
   --text: #262626;
@@ -87,7 +87,7 @@ body {
   height: 46px;
   border-radius: 14px;
   object-fit: cover;
-  border: 1px solid #d9cfba;
+  border: 0px solid #d9cfba;
   box-shadow: 0 8px 18px rgba(0,0,0,0.10);
 }
 
@@ -115,7 +115,7 @@ body {
    =============================== */
 
 .icon-btn {
-  background: #0050C3;       /* Azul */
+  background: #1349A4;       /* Azul */
   color: #ffffff;            /* Icono blanco */
   border: 2px solid #ffffff; /* Borde blanco */
   font-size: 1.2rem;
@@ -130,8 +130,8 @@ body {
 
 .icon-btn:hover {
   background: #ffffff;       /* Fondo blanco */
-  color: #0050C3;            /* Icono azul */
-  border: 2px solid #0050C3; /* Borde azul */
+  color: #1349A4;            /* Icono azul */
+  border: 2px solid #1349A4; /* Borde azul */
 }
 
 .icon-btn:active {
@@ -174,7 +174,7 @@ body {
 /* ---------- Cards ---------- */
 .card {
   border-radius: 18px;
-  background: var(--card);
+  background: #ffffff;
   box-shadow: var(--shadow);
   padding: 12px;
 }
@@ -216,7 +216,7 @@ body {
 .category-list { display: flex; flex-direction: column; gap: 8px; }
 
 .category-item {
-  background: #0050C3;      /* Azul */
+  background: #1349A4;      /* Azul */
   color: #ffffff;           /* Letras blancas */
   border: 2px solid #ffffff;/* Borde blanco */
   padding: 10px 10px;
@@ -229,8 +229,8 @@ body {
 
 .category-item:hover {
   background: #ffffff;      /* Fondo blanco */
-  color: #0050C3;           /* Letras azules */
-  border: 2px solid #0050C3;/* Borde azul */
+  color: #1349A4;           /* Letras azules */
+  border: 2px solid #1349A4;/* Borde azul */
 }
 
 .category-item:active {
@@ -239,13 +239,13 @@ body {
 
 .category-item.active {
   background: #003a91;      /* Azul más oscuro cuando está activa */
-  color: #0050C3;
+  color: #1349A4;
   border: 2px solid #ffffff;
 }
 .category-item:active { transform: scale(0.99); }
 .category-item.active {
   background: #ffffff;
-  border-color: #0050C3;
+  border-color: #1349A4;
 }
 
 /* ---------- Products grid ---------- */
@@ -290,7 +290,7 @@ body {
   padding: 4px 8px;
   border-radius: 999px;
   background: rgba(0, 81, 195, 0.096);
-  color: #0050C3;
+  color: #1349A4;
   border: 1px solid rgba(0,80,195,0.3);
 }
 
@@ -357,15 +357,15 @@ body {
   font-size: 0.82rem;
   border: 1px dashed var(--accent);
  
-background: #0050C3;
+background: #1349A4;
 color: #ffffff;
 border: 1px solid #ffffff;
 
 /*
 BLANCO MINIMALISTA
 background: #ffffff;
-border: 1px solid #0050C3;
-color: #0050C3;
+border: 1px solid #1349A4;
+color: #1349A4;
 BLANCO MINIMALISTA
 */
 
@@ -476,7 +476,7 @@ BLANCO MINIMALISTA
   max-height: 92vh;
   overflow: auto;
   border-radius: 18px;
-  background: var(--card);
+  background: #ffffff;
   box-shadow: 0 20px 60px rgba(0,0,0,0.25);
   border: 1px solid rgba(217,207,186,0.9);
 }
@@ -484,7 +484,8 @@ BLANCO MINIMALISTA
 .modal-head {
   position: sticky;
   top: 0;
-  background: rgba(255,250,240,0.95);
+  background: #ffffff;
+  
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(217,207,186,0.9);
   padding: 10px 12px;
@@ -574,33 +575,47 @@ BLANCO MINIMALISTA
 .info-card h3 { margin-top: 0; }
 .empty { margin-top: 16px; text-align: center; }
 
-/* ---------- Admin tabs ---------- */
+/* ===============================
+   TABS MENÚ EDICIÓN ESTILO AZUL
+   =============================== */
+
 .admin-tabs {
   margin: 10px 0 12px;
   display: inline-flex;
-  gap: 0;
-  flex-wrap: nowrap;
-  border: 1px solid #d9cfba;
-  border-radius: 12px;
+  border: 2px solid #1349A4;   /* borde azul */
+  border-radius: 14px;
   overflow: hidden;
-  background: #fffaf0;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  background: #ffffff;
 }
 
+/* Botones base (inactivos) */
 .chip {
-  border: none;
-  background: transparent;
-  padding: 10px 12px;
+  padding: 10px 18px;
   cursor: pointer;
   font-weight: 900;
-  color: #4a4a4a;
-  transition: background 0.12s ease, color 0.12s ease;
-  border-right: 1px solid #e2d9c8;
+  background: #ffffff;        /* fondo blanco */
+  color: #1349A4;             /* letras azul */
+  border: none;
+  transition: all 0.18s ease;
 }
-.admin-tabs .chip:last-child { border-right: none; }
 
-.chip:hover { background: #fff3d6; color: #5d4b1b; }
-.chip.active { background: var(--accent); color: #2a1b00; }
+/* Hover solo para inactivo */
+.chip:hover {
+  background: #e6f0ff;        /* celeste */
+}
+
+/* Activo */
+.chip.active {
+  background: #1349A4;        /* azul */
+  color: #ffffff;             /* letras blancas */
+}
+
+/* Evita que hover afecte activo */
+.chip.active:hover {
+  background: #1349A4;
+}
+
+
 
 /* ---------- Admin panel ---------- */
 .admin-panel-modal { padding: 4px 2px; }
@@ -619,16 +634,29 @@ BLANCO MINIMALISTA
   gap: 10px;
 }
 
+/* ===============================
+   INPUTS MENÚ EDICIÓN AZUL
+   =============================== */
+
 .form-row input,
 .form-row select,
 .form-row textarea {
-  border: 1px solid #d9cfba;
-  background: #fffdf7;
+  border: 1px solid #1349A4;   /* borde azul */
+  background: #ffffff;
   border-radius: 14px;
   padding: 10px 12px;
   font-size: 1rem;
   outline: none;
   width: 100%;
+  transition: all 0.18s ease;
+}
+
+/* foco más profesional */
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  border: 1px solid #1349A4;
+  box-shadow: 0 0 0 3px rgba(19, 73, 164, 0.15);
 }
 
 .form-row input:focus,
@@ -650,8 +678,8 @@ BLANCO MINIMALISTA
 
 .promo-box {
   margin-top: 12px;
-  border: 1px dashed rgba(215,192,134,0.9);
-  background: rgba(243,216,163,0.25);
+  border: 1px solid #1349A4;  /* opcional: azul */
+  background: #ffffff;         /* Fondo blanco */
   border-radius: 14px;
   padding: 12px;
 }
@@ -673,8 +701,8 @@ BLANCO MINIMALISTA
   padding: 16px 14px;
   text-align: center;
   font-weight: 800;
-  color: #0050C3;          /* Letras azules */
-  border-top: 2px solid #0050C3;
+  color: #1349A4;          /* Letras azules */
+  border-top: 2px solid #1349A4;
   background: #ffffff;     /* Fondo blanco */
   margin-top: 16px;
   border-radius: 18px;
@@ -694,7 +722,7 @@ BLANCO MINIMALISTA
 
   /* ✅ escritorio: logo grande */
   .brand-logo {
-    width: 146px;
+    width: 260px;
     height: 146px;
     object-fit: contain;
   }
@@ -864,4 +892,42 @@ BLANCO MINIMALISTA
   .products-grid { grid-template-columns: 1fr; }
   .field-grid { grid-template-columns: 1fr; }
   .promo-grid { grid-template-columns: 1fr; }
+}
+
+/* ===============================
+   BOTÓN CERRAR SESIÓN
+   =============================== */
+
+.btn-logout {
+  background: #1349A4;      /* normal: azul */
+  color: #ffffff;           /* letra blanca */
+  border: 2px solid #ffffff;/* borde blanco */
+}
+
+.btn-logout:hover {
+  background: #ffffff;      /* hover: blanco */
+  color: #1349A4;           /* letra azul */
+  border: 2px solid #1349A4;/* borde azul */
+}
+
+.btn-logout:active {
+  transform: scale(0.98);
+}
+
+/* ===============================
+   BOTÓN GUARDAR - MODAL EDICIÓN
+   =============================== */
+
+.btn-save {
+  background: #ffffff;          /* fondo blanco */
+  color: #1349A4;               /* letras azul */
+  border: 1px solid #1349A4;    /* borde azul */
+  font-weight: 900;
+  transition: all 0.18s ease;
+}
+
+.btn-save:hover {
+  background: #1349A4;          /* fondo azul */
+  color: #ffffff;               /* letras blancas */
+  border: 1px solid #1349A4;
 }
