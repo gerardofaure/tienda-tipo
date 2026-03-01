@@ -239,13 +239,13 @@ body {
 
 .category-item.active {
   background: #003a91;      /* Azul más oscuro cuando está activa */
-  color: #ffffff;
+  color: #0050C3;
   border: 2px solid #ffffff;
 }
 .category-item:active { transform: scale(0.99); }
 .category-item.active {
-  background: rgba(215,192,134,0.45);
-  border-color: rgba(215,192,134,0.9);
+  background: #ffffff;
+  border-color: #0050C3;
 }
 
 /* ---------- Products grid ---------- */
@@ -262,7 +262,7 @@ body {
   /* ✅ Todas las cards del catálogo quedan del mismo alto */
   height: var(--product-card-height);
   min-height: var(--product-card-height);
-  background: linear-gradient(180deg, var(--card) 0%, var(--card-soft) 100%);
+  background: #ffffff ;
   border: 1px solid #d9cfba;
 }
 
@@ -287,10 +287,11 @@ body {
 
 .category-tag {
   font-size: 0.72rem;
-  border: 1px solid #d9cfba;
   padding: 4px 8px;
   border-radius: 999px;
-  background: #fffaf0;
+  background: rgba(0, 81, 195, 0.096);
+  color: #0050C3;
+  border: 1px solid rgba(0,80,195,0.3);
 }
 
 .stock-badge { font-size: 0.72rem; padding: 4px 8px; border-radius: 999px; }
@@ -299,12 +300,13 @@ body {
 /* Imagen click */
 .product-image-wrap {
   width: 100%;
-  height: 250px;      /* 🔵 AQUÍ defines el alto fijo */
+  height: 240px;      /* 🔵 AQUÍ defines el alto fijo */
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #d9cfba;
   background: #fff;
   margin-bottom: 10px;
+  aspect-ratio: 4 / 3;
 }
 
 .product-image-btn {
@@ -354,7 +356,19 @@ body {
 .promo-badge {
   font-size: 0.82rem;
   border: 1px dashed var(--accent);
-  background: #fff3d6;
+ 
+background: #0050C3;
+color: #ffffff;
+border: 1px solid #ffffff;
+
+/*
+BLANCO MINIMALISTA
+background: #ffffff;
+border: 1px solid #0050C3;
+color: #0050C3;
+BLANCO MINIMALISTA
+*/
+
   border-radius: 14px;
   padding: 8px 10px;
   margin-bottom: 10px;

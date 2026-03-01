@@ -17,7 +17,7 @@ const CART_STORAGE_KEY = "mi_tienda_cart_v2"; // v2: sin variantes (migra desde 
 const LEGACY_CART_STORAGE_KEY = "mi_tienda_cart_v1";
 
 const CATEGORIES = [
-  "TODOS",
+  "TODO",
   "UTILES",
   "PANADERIA",
   "DEPORTE",
