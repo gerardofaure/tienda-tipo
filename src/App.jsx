@@ -346,7 +346,7 @@ function CartContent({
     <div className="cart-modal-content">
       <div className="cart-summary-row">
         <span className="badge">{countItems} ítems</span>
-        <button className="btn btn-outline btn-small" onClick={onClear} disabled={!hasItems}>
+        <button className="btn btn-clear btn-small" onClick={onClear} disabled={!hasItems}>
           Vaciar
         </button>
       </div>
@@ -452,7 +452,7 @@ function CartContent({
           <strong>{formatCLP(total)}</strong>
         </div>
 
-        <button className="btn btn-success" onClick={() => onCheckout(total)} disabled={!hasItems}>
+        <button className="btn btn-whatsapp" onClick={() => onCheckout(total)} disabled={!hasItems}>
           Enviar a WhatsApp
         </button>
       </div>
@@ -894,9 +894,9 @@ function AdminContent({
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
           <button className="btn btn-save" type="submit">{mode === "create" ? "Agregar producto" : "Guardar cambios"}</button>
           {mode === "edit" ? (
-            <button className="btn btn-danger" type="button" onClick={handleDelete}>
-              Eliminar producto
-            </button>
+            <button className="btn btn-delete" type="button" onClick={handleDelete}>
+  Eliminar producto
+</button>
           ) : null}
         </div>
       </form>
@@ -1400,3 +1400,4 @@ export default function App() {
     </div>
   );
 }
+
