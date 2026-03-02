@@ -1222,40 +1222,49 @@ export default function App() {
     <div className="app-shell">
       {/* MOBILE HEADER (solo móvil) */}
       <header className="topbar mobile-only">
-        <div className="topbar-inner">
-          <div className="brand">
-            <img className="brand-logo" src={logoMiTienda} alt="Mi Tienda" />
-            <div>
-              <h1>Mi Tienda</h1>
-              <div className="muted small">Todo lo que necesitas</div>
-            </div>
-          </div>
 
-          <div className="topbar-actions">
-            <button
-              className="icon-btn"
-              type="button"
-              onClick={() => setAdminOpen(true)}
-              aria-label="Edición"
-              title="Edición"
-            >
-              ⚙
-            </button>
+  {/* BLOQUE SUPERIOR: LOGO + TITULO */}
+  <div className="mobile-brand">
+    <img className="brand-logo" src={logoMiTienda} alt="Mi Tienda" />
+    <div>
+      <h1>Mi Tienda</h1>
+      <div className="muted small">Todo lo que necesitas</div>
+    </div>
+  </div>
 
-            <button
-              className="icon-btn cart-btn"
-              type="button"
-              onClick={() => setCartOpen(true)}
-              aria-label="Carrito"
-              title="Carrito"
-            >
-              🛒
-              {cartCount > 0 ? <span className="cart-dot">{cartCount}</span> : null}
-            </button>
-          </div>
-        </div>
-      </header>
+  {/* BLOQUE INFERIOR: EDICIÓN - BANNER - CARRITO */}
+  <div className="mobile-banner-row">
 
+    <button
+      className="icon-btn"
+      type="button"
+      onClick={() => setAdminOpen(true)}
+      aria-label="Edición"
+      title="Edición"
+    >
+      ⚙
+    </button>
+
+    <BannerCarousel
+      slides={bannerSlides}
+      onClickSlide={handleBannerClick}
+      compact
+      className="mobile-banner-inline"
+    />
+
+    <button
+      className="icon-btn cart-btn"
+      type="button"
+      onClick={() => setCartOpen(true)}
+      aria-label="Carrito"
+      title="Carrito"
+    >
+      🛒
+      {cartCount > 0 ? <span className="cart-dot">{cartCount}</span> : null}
+    </button>
+
+  </div>
+</header>
       <div className="layout-desktop">
         <CategorySidebar activeCategory={activeCategory} onSelect={setActiveCategory} />
 
@@ -1304,10 +1313,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* MOBILE BANNER (solo móvil) */}
-          <div className="mobile-only">
-            <BannerCarousel slides={bannerSlides} onClickSlide={handleBannerClick} />
-          </div>
+          
 
           <div className="card filters">
             <div className="filters-row">

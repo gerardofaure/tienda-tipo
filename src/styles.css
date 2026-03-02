@@ -61,13 +61,16 @@ body {
 }
 
 /* Header móvil */
+/* ===============================
+   HEADER MOBILE AZUL
+   =============================== */
+
 .topbar {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(255,250,240,0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(217,207,186,0.8);
+  background: #1349A4;     /* azul */
+  border-bottom: none;
   padding: 10px 14px;
   display: flex;
   justify-content: center;
@@ -1025,3 +1028,152 @@ BLANCO MINIMALISTA
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ===============================
+   BANNER PROMO 50% - SOLO MÓVIL
+   =============================== */
+
+@media (max-width: 900px) {
+
+  .mobile-only .banner {
+    width: 40%;            /* 40% del ancho */
+    margin: 0 auto;        /* centrado */
+  }
+
+}
+
+/* ===============================
+   BANNER + ICONOS SOLO MÓVIL
+   =============================== */
+
+@media (max-width: 900px) {
+
+  .mobile-banner-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .mobile-banner-inline {
+    width: 50%;        /* banner 50% */
+  }
+
+}
+
+/* ===============================
+   BOTONES MOBILE PEGADOS ABAJO
+   =============================== */
+
+@media (max-width: 900px) {
+
+  .topbar {
+    height: 240px;              /* dale altura fija al header */
+    display: flex;
+    align-items: flex-end;      /* ⬅ los baja hacia el fondo */
+  }
+
+  .mobile-banner-row {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;      /* asegura alineación inferior */
+    justify-content: space-between;
+  }
+
+}
+
+/* ===============================
+   FILTROS AZUL SOLO MÓVIL
+   =============================== */
+@media (max-width: 900px) {
+  .card.filters {
+    background: #1349A4;
+    border: 1px solid #1349A4;
+    box-shadow: none;
+    padding: 10px;
+  }
+
+  .card.filters input,
+  .card.filters select {
+    background: #ffffff;
+    border: 1px solid #1349A4;
+    color: black;
+  }
+}
+
+/* ===============================
+   SELECT CATEGORÍA MÁS ANGOSTO
+   =============================== */
+@media (max-width: 900px) {
+  .filters-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .filters-row input {
+    flex: 1;
+    min-width: 0;         /* CLAVE: permite que se encoja */
+  }
+
+  .filters-row select.mobile-only {
+    flex: 0 0 120px;      /* ancho fijo */
+    max-width: 120px;
+    min-width: 120px;
+  }
+}
+
+/* ===============================
+   MOBILE BRAND ARRIBA
+   =============================== */
+
+@media (max-width: 900px) {
+
+  .topbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 10px;
+  }
+  .topbar { padding-bottom: 20px; }
+.card.filters { margin-top: 15px; }
+
+
+  
+
+  .mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-brand h1,
+  .mobile-brand .muted {
+    color: #ffffff;  /* porque el header es azul */
+  }
+
+  .mobile-banner-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-banner-inline {
+    width: 50%;
+  }
+}
+
+
+
+/* ===============================
+   EN MÓVIL: HEADER NO STICKY (evita montaje)
+   =============================== */
+@media (max-width: 900px) {
+  .topbar {
+    position: relative; /* o 'static' */
+    top: auto;
+  }
+}
+
