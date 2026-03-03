@@ -460,8 +460,7 @@ function CartContent({
       <div className="card info-card" style={{ marginTop: 12 }}>
         <h3 style={{ marginTop: 0 }}>Despacho</h3>
         <div className="muted small">
-          Se enviará tu pedido a WhatsApp con el detalle y total. El pedido se guardará en el sistema y rebajará stock si el
-          producto tiene stockQty.
+          Se enviará tu pedido a la tienda con el detalle y total. Te contactarán para el pago.
         </div>
       </div>
     </div>
@@ -960,6 +959,9 @@ export default function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
 
+  // ✅ Modal de bienvenida al ingresar
+  const [introOpen, setIntroOpen] = useState(true);
+
   const [imageOpen, setImageOpen] = useState(false);
   const [imageData, setImageData] = useState({ src: "", title: "" });
 
@@ -1352,10 +1354,29 @@ export default function App() {
           </div>
 
           <footer className="footer">
-            Despacho gratis en zonas centrales - Info al fono +56987231623
+            Solicita tu prueba - Info al fono +56987231623
           </footer>
         </main>
       </div>
+
+      {/* Modal al ingresar */}
+      <Modal open={introOpen} onClose={() => setIntroOpen(false)} title="Mi Tienda - Demo" hideCloseButton>
+        <div className="muted small" style={{ marginBottom: 8 }}>
+          Ahora puedes tener tu propio catálogo digital profesional.
+        </div>
+
+        <p style={{ margin: 0, lineHeight: 1.5 }}>
+          Con este sistema puedes mostrar tus productos de forma atractiva, permitir que tus clientes armen su pedido fácilmente y recibirlo todo ordenado en WhatsApp.</p>
+          <p>Además, puedes editar tu catálogo y configurar tu tienda desde el mismo celular, sin complicaciones.</p>
+          <p>Pide tu prueba gratis hoy mismo y lleva tu negocio al siguiente nivel. ¡Es rápido, fácil y sin costos ocultos!
+        </p>
+
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 14 }}>
+          <button type="button" className="btn" onClick={() => setIntroOpen(false)}>
+            Ir a Demo de Tienda
+          </button>
+        </div>
+      </Modal>
 
       {/* Carrito */}
       <Modal open={cartOpen} onClose={() => setCartOpen(false)} title="Carrito Mi Tienda">
