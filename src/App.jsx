@@ -266,7 +266,7 @@ function ProductCard({
       <div className="product-bottom">
         <div className="price-block">
           <div className="price">{formatCLP(unit)}</div>
-          {promoText ? <div className="muted small">Precio unitario según cantidad</div> : null}
+          {promoText ? <div className="muted small"></div> : null}
         </div>
 
         <div className="qty-controls">
